@@ -7,7 +7,7 @@ services:
       context: ./wp
       dockerfile: ../config/Dockerfile
     ports:
-      - "127.0.0.1:3000:3000"
+      - "127.0.0.1:80:80"
     volumes:
       - ./config/php.conf.ini:/usr/local/etc/php/conf.d/conf.ini
       - ./wp:/var/www/html
@@ -23,16 +23,16 @@ services:
       WP_ADMIN_EMAIL: admin@example.com
       WP_ADMIN_PASSWORD: qwerty123
       WP_TITLE: WP Site on Docker
-      LIVE_URL: 127.0.0.1:3000
-      DEV_URL: 127.0.0.1:3000
+      LIVE_URL: 127.0.0.1:80
+      DEV_URL: 127.0.0.1:80
     networks:
-      - wp-next-network
+      - wp-network
 
   db:
-    container_name: mysql8-docker
-    image: mysql:8
+    container_name: mysql-docker
+    image: mysql:8.0.33
     ports:
-       - "127.0.0.1:3306:3306"
+       - "127.0.0.1:3307:3307"
     volumes:
       - db:/var/lib/mysql
       - ./db_dumps:/var/lib/mysql
@@ -42,14 +42,15 @@ services:
     command: [
       '--default_authentication_plugin=mysql_native_password',
       '--character-set-server=utf8mb4',
-      '--collation-server=utf8mb4_unicode_ci'
+      '--collation-server=utf8mb4_unicode_ci',
+      '--skip-host-cache',
     ]
     networks:
-      - wp-next-network
+      - wp-network
 
 
 networks:
-  wp-next-network:
+  wp-network:
 
 volumes: 
     db:
