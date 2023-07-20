@@ -1,0 +1,14 @@
+!wp/
+
+wp/*
+!wp/wp-content/
+
+wp/wp-content/*
+!wp/wp-content/themes/
+
+.DS_Store
+
+
+!db_dumps/
+db_dumps/*
+!db_dumps/dumps/
